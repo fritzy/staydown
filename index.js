@@ -9,15 +9,23 @@ function StayDown(target, interval, max, callback) {
 
     this.emit('lock');
 
-    this.target.addEventListener('mousewheel', function (event) {
+    var wheelevent = "wheel";
+    if (document.onmousewheel !== undefined) {
+        wheelevent = 'mousewheel';
+    }
+
+    console.log(wheelevent);
+
+    this.target.addEventListener(wheelevent, function (event) {
+        var delta = event.deltaY;
         if (
-            !staydown.intend_down 
-            && event.wheelDeltaY < 0
-            && staydown.target.scrollTop + staydown.target.clientHeight == staydown.target.scrollHeight
+            !staydown.intend_down &&
+            delta > 0 &&
+            staydown.target.scrollTop + staydown.target.clientHeight == staydown.target.scrollHeight
         ) {
             staydown.intend_down = true;
             staydown.emit('lock');
-        } else if (staydown.intend_down && event.wheelDeltaY > 0) {
+        } else if (staydown.intend_down && delta < 0) {
             staydown.intend_down = false;
             staydown.emit('release');
         }
@@ -31,7 +39,7 @@ function StayDown(target, interval, max, callback) {
             staydown.emit('scrolldown');
         }
         window.setTimeout(checkdown, staydown.interval);
-    }
+    };
     checkdown();
 }
 
