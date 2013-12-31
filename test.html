@@ -1,0 +1,23 @@
+<html>
+<body>
+    <div style='width: 400px; height: 200px; overflow: auto;' id='scrollarea'>
+    </div>
+    <input type='text' id='input'>
+    <script src='index.js'></script>
+    <script>
+        var scrolldom = document.getElementById('scrollarea');
+        var inputdom = document.getElementById('input');
+        var sd = new StayDown(scrolldom, 5000, 11, function (event, msg) { console.log(event) });
+        inputdom.addEventListener('keydown', function (event) {
+            if (event.which === 13) {
+                //event.preventDefault();
+                var newp = document.createElement('p');
+                var text = document.createTextNode(input.value);
+                newp.appendChild(text);
+                inputdom.value = '';
+                sd.append(newp);
+            }
+        });
+    </script>
+</body>
+</html>
