@@ -121,5 +121,5 @@ function StayDown(target, interval, max, callback) {
 
 }).call(StayDown.prototype);
 
-//module.exports = StayDown;
-window.StayDown = StayDown;
+module.exports = StayDown;
+//window.StayDown = StayDown;

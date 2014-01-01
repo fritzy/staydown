@@ -16,6 +16,10 @@ when the user scrolls back down to the bottom.
     var staydown = new StayDown(scrolling_element, millisecond_check, max_items, event_callback);
     sd.append(new_element);
 
+##Install
+
+    npm install staydown
+
 ##Events:
 
 The event callback is called with an event type whenever ScrollDown does something.
