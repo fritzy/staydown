@@ -5,12 +5,12 @@ function StayDown(target, interval, max, callback) {
     this.max = max || 0;
     this.callback = callback;
     this.userScroll = true;
-    
+
 
     var staydown = this;
 
     this.emit('lock');
-    
+
     var wheelevent = "wheel";
     if (document.onmousewheel !== undefined) {
         wheelevent = 'mousewheel';
@@ -34,20 +34,6 @@ function StayDown(target, interval, max, callback) {
         staydown.userScroll = true;
     });
 
-    function checkForImage(el, imgs) {
-        var idx;
-        imgs = imgs || [];
-        if (el.nodeName === 'img' || el.nodeName === 'IMG') {
-            return [el];
-        } else {
-            for (idx = 0; idx < el.children.length; idx++) {
-                imgs = imgs.concat(checkForImage(el.children[idx], imgs));
-            }
-            return imgs;
-        }
-
-    }
-
     function onImageLoad(event) {
         //image loads later, and isn't a mutation
         staydown.emit('imageload');
@@ -67,10 +53,10 @@ function StayDown(target, interval, max, callback) {
             for (var idx = 0; idx < mutations.length; idx++) {
                 var mut = mutations[idx];
                 for (var nidx = 0; nidx < mut.addedNodes.length; nidx++) {
-                    var imgs = checkForImage(mut.addedNodes[nidx]);
-                    imgs.forEach(function (img) {
-                        img.addEventListener('load', onImageLoad);
-                    });
+                    var imgs = mut.addedNodes[nidx].getElementsByTagName('img');
+                    for (var iidx = 0, ilen = imgs.length; iidx < ilen; i++) {
+                        imgs[iidx].addEventListener('load', onImageLoad);
+                    }
                 }
             }
         });
@@ -109,7 +95,7 @@ function StayDown(target, interval, max, callback) {
             this.callback(type, msg);
         }
     };
-    
+
     this.checkdown = function () {
         if (this.intend_down && 
             this.target.scrollTop + this.target.clientHeight != this.target.scrollHeight) {
@@ -122,4 +108,3 @@ function StayDown(target, interval, max, callback) {
 }).call(StayDown.prototype);
 
 module.exports = StayDown;
-//window.StayDown = StayDown;
