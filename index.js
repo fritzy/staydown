@@ -54,7 +54,7 @@ function StayDown(target, interval, max, callback) {
                 var mut = mutations[idx];
                 for (var nidx = 0; nidx < mut.addedNodes.length; nidx++) {
                     var imgs = mut.addedNodes[nidx].getElementsByTagName('img');
-                    for (var iidx = 0, ilen = imgs.length; iidx < ilen; i++) {
+                    for (var iidx = 0, ilen = imgs.length; iidx < ilen; iidx++) {
                         imgs[iidx].addEventListener('load', onImageLoad);
                     }
                 }
