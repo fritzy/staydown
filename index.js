@@ -4,6 +4,7 @@ function StayDown(target, interval, max, callback) {
     this.intend_down = true;
     this.max = max || 0;
     this.callback = callback;
+    this.userScroll = true;
     
 
     var staydown = this;
@@ -20,21 +21,19 @@ function StayDown(target, interval, max, callback) {
         staydown.checkdown();
     });
 
-    this.target.addEventListener(wheelevent, function (event) {
-        var delta = event.deltaY;
-        if (
-            !staydown.intend_down &&
-            delta > 0 &&
-            staydown.target.scrollTop + staydown.target.clientHeight == staydown.target.scrollHeight
-        ) {
-            staydown.intend_down = true;
-            staydown.emit('lock');
-        } else if (staydown.intend_down && delta < 0) {
-            staydown.intend_down = false;
-            staydown.emit('release');
+    this.target.addEventListener('scroll', function (event) {
+        if (staydown.userScroll) {
+            if (staydown.intend_down && !staydown.isdown()) {
+                staydown.intend_down = false;
+                staydown.emit('release');
+            } else if (!staydown.indend_down && staydown.isdown()) {
+                staydown.intend_down = true;
+                staydown.emit('lock');
+            }
         }
+        staydown.userScroll = true;
     });
-        
+
     function checkForImage(el, imgs) {
         var idx;
         imgs = imgs || [];
@@ -61,6 +60,7 @@ function StayDown(target, interval, max, callback) {
 
         //mutation observer for whenever the overflow element changes
         this.mo = new MutationObserver(function (mutations) {
+            staydown.userScroll = false;
             //something changed, check scroll
             staydown.checkdown();
             //check to see if image was added, and add onload check
@@ -87,6 +87,10 @@ function StayDown(target, interval, max, callback) {
 
 (function () {
 
+    this.isdown = function () {
+        return (this.target.scrollTop + this.target.clientHeight == this.target.scrollHeight);
+    };
+
     this.append = function (newel) {
         this.emit('append');
         this.target.appendChild(newel);
@@ -110,10 +114,12 @@ function StayDown(target, interval, max, callback) {
         if (this.intend_down && 
             this.target.scrollTop + this.target.clientHeight != this.target.scrollHeight) {
             this.target.scrollTop = this.target.scrollHeight;
+            this.userScroll = false;
             this.emit('scrolldown');
         }
     };
 
 }).call(StayDown.prototype);
 
-module.exports = StayDown;
+//module.exports = StayDown;
+window.StayDown = StayDown;
