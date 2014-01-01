@@ -3,6 +3,10 @@
 Logs and chats often have the style of appending new lines to the bottom, and keeping
 scrolling pinned to the bottom, unless a user indicates intention not to keep it
 pinned to the bottom by scrolling up from the bottom.
+Images add a complication, as they are added to the dom, but later change the size
+of the overflow.
+StayDown looks at all added element trees for images, and checks the scrolling again
+when the image has finished loading.
 
 StayDown keeps track of user intention for pinning the element scroll to the bottom,
 as elements are added, and checks at an interval.
@@ -22,11 +26,5 @@ The event callback is called with an event type whenever ScrollDown does somethi
 * append: when an element is appended
 * checkfailed: when the interval check happens, it isn't scrolled down, and it is locked
 * removechild: when max items have been exceeded, and topmost child is removed
-
-## Why Timed Checks?
-
-HTML5 does not have mutation events.
-If something changes the scrollheight of the target without going through
-StayDown, there is no way of knowing.
-Say an image loads in, or something is added to the dom through another method,
-we need to occasionally check to make sure that the element is scrolled to the bottom.
+* imageload: when an image loads in the overflow element, scrolling is checked
+* windowresize: when the window is resized, scrolling is checked

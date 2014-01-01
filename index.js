@@ -4,17 +4,21 @@ function StayDown(target, interval, max, callback) {
     this.intend_down = true;
     this.max = max || 0;
     this.callback = callback;
+    
 
     var staydown = this;
 
     this.emit('lock');
-
+    
     var wheelevent = "wheel";
     if (document.onmousewheel !== undefined) {
         wheelevent = 'mousewheel';
     }
 
-    console.log(wheelevent);
+    window.addEventListener('resize', function (event) {
+        staydown.emit('windowresize');
+        staydown.checkdown();
+    });
 
     this.target.addEventListener(wheelevent, function (event) {
         var delta = event.deltaY;
@@ -30,17 +34,52 @@ function StayDown(target, interval, max, callback) {
             staydown.emit('release');
         }
     });
-
-    var checkdown = function () {
-        if (staydown.intend_down && 
-            staydown.target.scrollTop + staydown.target.clientHeight != staydown.target.scrollHeight) {
-            staydown.target.scrollTop = staydown.target.scrollHeight;
-            staydown.emit('checkfailed');
-            staydown.emit('scrolldown');
+        
+    function checkForImage(el, imgs) {
+        var idx;
+        imgs = imgs || [];
+        if (el.nodeName === 'img' || el.nodeName === 'IMG') {
+            return [el];
+        } else {
+            for (idx = 0; idx < el.children.length; idx++) {
+                imgs = imgs.concat(checkForImage(el.children[idx], imgs));
+            }
+            return imgs;
         }
-        window.setTimeout(checkdown, staydown.interval);
-    };
-    checkdown();
+
+    }
+
+    if (window.MutationObserver) {
+        //private function for getting images recursively from dom
+
+        //mutation observer for whenever the overflow element changes
+        this.mo = new MutationObserver(function (mutations) {
+            //something changed, check scroll
+            staydown.checkdown();
+            //check to see if image was added, and add onload check
+            for (var idx = 0; idx < mutations.length; idx++) {
+                var mut = mutations[idx];
+                for (var nidx = 0; nidx < mut.addedNodes.length; nidx++) {
+                    var imgs = checkForImage(mut.addedNodes[nidx]);
+                    imgs.forEach(function (img) {
+                        img.onload = function () {
+                            //image loads in later, doesn't count as mutation, so we check scroll now
+                            staydown.emit('imageload');
+                            staydown.checkdown();
+                        };
+                    });
+                }
+            }
+        });
+        this.mo.observe(this.target, {attributes: true, childList: true, characterData: true, subtree: true});
+    } else {
+        var checkdown = function () {
+            staydown.checkdown();
+            window.setTimeout(checkdown, staydown.interval);
+        };
+        checkdown();
+    }
+
 }
 
 (function () {
@@ -61,6 +100,14 @@ function StayDown(target, interval, max, callback) {
     this.emit = function (type, msg) {
         if (typeof this.callback === 'function') {
             this.callback(type, msg);
+        }
+    };
+    
+    this.checkdown = function () {
+        if (this.intend_down && 
+            this.target.scrollTop + this.target.clientHeight != this.target.scrollHeight) {
+            this.target.scrollTop = this.target.scrollHeight;
+            this.emit('scrolldown');
         }
     };
 

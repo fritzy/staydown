@@ -17,6 +17,13 @@
                 inputdom.value = '';
                 sd.append(newp);
             }
+            if (event.which === 17) {
+                var newp = document.createElement('p');
+                var img = new Image();
+                img.src = 'http://upload.wikimedia.org/wikipedia/commons/f/f7/Fiji_Banded_Iguana.jpg';
+                newp.appendChild(img);
+                sd.append(newp);
+            }
         });
     </script>
 </body>
