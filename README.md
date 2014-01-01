@@ -28,3 +28,8 @@ The event callback is called with an event type whenever ScrollDown does somethi
 * removechild: when max items have been exceeded, and topmost child is removed
 * imageload: when an image loads in the overflow element, scrolling is checked
 * windowresize: when the window is resized, scrolling is checked
+
+## Occasional Check
+
+When the browser doesn't have Mutation Observer support, a check interval is used for the case of
+images or dom mutations happening without using the this StayDown's append function.
