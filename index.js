@@ -49,6 +49,13 @@ function StayDown(target, interval, max, callback) {
 
     }
 
+    function onImageLoad(event) {
+        //image loads later, and isn't a mutation
+        staydown.emit('imageload');
+        staydown.checkdown();
+        event.target.removeEventListener(onImageLoad);
+    }
+
     if (window.MutationObserver) {
         //private function for getting images recursively from dom
 
@@ -62,11 +69,7 @@ function StayDown(target, interval, max, callback) {
                 for (var nidx = 0; nidx < mut.addedNodes.length; nidx++) {
                     var imgs = checkForImage(mut.addedNodes[nidx]);
                     imgs.forEach(function (img) {
-                        img.onload = function () {
-                            //image loads in later, doesn't count as mutation, so we check scroll now
-                            staydown.emit('imageload');
-                            staydown.checkdown();
-                        };
+                        img.addEventListener('load', onImageLoad);
                     });
                 }
             }
@@ -113,4 +116,4 @@ function StayDown(target, interval, max, callback) {
 
 }).call(StayDown.prototype);
 
-window.StayDown = StayDown;
+module.exports = StayDown;
