@@ -38,7 +38,7 @@ function StayDown(target, interval, max, callback) {
         //image loads later, and isn't a mutation
         staydown.emit('imageload');
         staydown.checkdown();
-        event.target.removeEventListener(onImageLoad);
+        event.target.removeEventListener('load', onImageLoad);
     }
 
     if (window.MutationObserver) {
