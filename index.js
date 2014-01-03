@@ -107,4 +107,8 @@ function StayDown(target, interval, max, callback) {
 
 }).call(StayDown.prototype);
 
-module.exports = StayDown;
+if (!module) {
+    window.StayDown = StayDown;
+} else {
+    module.exports = StayDown;
+}
