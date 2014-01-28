@@ -1,13 +1,17 @@
-function StayDown(target, interval, max, callback) {
-    this.target = target;
-    this.interval = interval;
-    this.intend_down = true;
-    this.max = max || 0;
-    this.callback = callback;
+function StayDown(opts) {
+    opts = opts || {};
+    this.target = opts.target;
+    this.interval = opts.interval;
+    this.max = opts.max || 0;
+    this.callback = opts.callback;
     this.userScroll = true;
-
-
+    this.spinner = opts.spinner;
+    this.spin_img = new Image();
+    if (this.spinner) {
+        this.spin_img.src = this.spinner;
+    }
     var staydown = this;
+    this.intend_down = true;
 
     this.emit('lock');
 
@@ -34,28 +38,38 @@ function StayDown(target, interval, max, callback) {
         staydown.userScroll = true;
     });
 
-    function onImageLoad(event) {
-        //image loads later, and isn't a mutation
-        staydown.emit('imageload');
-        staydown.checkdown();
-        event.target.removeEventListener('load', onImageLoad);
-    }
-
     if (window.MutationObserver) {
         //private function for getting images recursively from dom
 
         //mutation observer for whenever the overflow element changes
         this.mo = new MutationObserver(function (mutations) {
+            var mut, idx, nidx, imgs, img, iidx, ilen, parent, spin;
             staydown.userScroll = false;
             //something changed, check scroll
             staydown.checkdown();
             //check to see if image was added, and add onload check
-            for (var idx = 0; idx < mutations.length; idx++) {
-                var mut = mutations[idx];
-                for (var nidx = 0; nidx < mut.addedNodes.length; nidx++) {
-                    var imgs = mut.addedNodes[nidx].getElementsByTagName('img');
-                    for (var iidx = 0, ilen = imgs.length; iidx < ilen; iidx++) {
-                        imgs[iidx].addEventListener('load', onImageLoad);
+            for (idx = 0; idx < mutations.length; idx++) {
+                mut = mutations[idx];
+                for (nidx = 0; nidx < mut.addedNodes.length; nidx++) {
+                    imgs = mut.addedNodes[nidx].getElementsByTagName('img');
+                    for (iidx = 0, ilen = imgs.length; iidx < ilen; iidx++) {
+                        img = imgs[iidx];
+                        if (!img.complete) {
+                            parent = img.parentNode;
+                            if (staydown.spinner) {
+                                spin = staydown.spin_img.cloneNode();
+                                parent.replaceChild(spin, img);
+
+                            }
+                            var onImageLoad = function (event) {
+                                //image loads later, and isn't a mutation
+                                parent.replaceChild(img, spin);
+                                staydown.emit('imageload');
+                                staydown.checkdown();
+                                event.target.removeEventListener('load', onImageLoad);
+                            };
+                            img.addEventListener('load', onImageLoad);
+                        }
                     }
                 }
             }

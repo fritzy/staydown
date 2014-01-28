@@ -1,7 +1,7 @@
 var StayDown = require('./index');
 var scrolldom = document.getElementById('scrollarea');
 var inputdom = document.getElementById('input');
-var sd = new StayDown(scrolldom, 5000, 11, function (event, msg) { console.log(event); });
+var sd = new StayDown({target: scrolldom, interval: 5000, max: 11, spinner: 'spinner.gif', callback: function (event, msg) { console.log(event); }});
 inputdom.addEventListener('keydown', function (event) {
     var newp, text, img;
     if (event.which === 13) {

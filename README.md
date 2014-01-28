@@ -13,7 +13,17 @@ as elements are added, and checks at an interval.
 When a user scrolls up, StayDown stops scrolling down for the user, but re-initializes
 when the user scrolls back down to the bottom.
 
-    var staydown = new StayDown(scrolling_element, millisecond_check, max_items, event_callback);
+Optionally, images can be replaced with a "spinner" loading image to make image loading
+a better user experience. Otherwise, loading images can resize and not scroll down
+until they are finished loading.
+
+    var staydown = new StayDown({
+        target: scrolling_element,
+        interval: millisecond_check,
+        max: max_items,
+        spinner: image_src,
+        callback: event_callback
+    });
     sd.append(new_element);
 
 ##Install
