@@ -59,10 +59,9 @@ function StayDown(opts) {
                             if (staydown.spinner) {
                                 spin = staydown.spin_img.cloneNode();
                                 parent.replaceChild(spin, img);
-
                             }
                             var onImageLoad = function (event) {
-                                if (staydown.spinner) {
+                                if (spin) {
                                     //image loads later, and isn't a mutation
                                     parent.replaceChild(img, spin);
                                 }
