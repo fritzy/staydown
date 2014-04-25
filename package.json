@@ -1,18 +1,16 @@
 {
   "name": "staydown",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "homepage": "https://github.com/fritzy/staydown",
   "repository": {
     "type": "git",
     "url": "git@github.com:fritzy/staydown.git"
   },
   "description": "Keep overflowed containers scrolled down, but allow user intervention",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-      "precommit-hook": "*"
+    "precommit-hook": "*"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "main": "index.js"
 }
