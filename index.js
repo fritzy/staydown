@@ -51,6 +51,12 @@ function StayDown(opts) {
             for (idx = 0; idx < mutations.length; idx++) {
                 mut = mutations[idx];
                 for (nidx = 0; nidx < mut.addedNodes.length; nidx++) {
+                    // Check if we appended a node type that isn't
+                    // an element that we can search for images inside.
+                    if (!mut.addedNodes[nidx].getElementsByTagName) {
+                        continue;
+                    }
+
                     imgs = mut.addedNodes[nidx].getElementsByTagName('img');
                     for (iidx = 0, ilen = imgs.length; iidx < ilen; iidx++) {
                         img = imgs[iidx];
