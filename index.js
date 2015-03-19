@@ -30,7 +30,7 @@ function StayDown(opts) {
             if (staydown.intend_down && !staydown.isdown()) {
                 staydown.intend_down = false;
                 staydown.emit('release');
-            } else if (!staydown.indend_down && staydown.isdown()) {
+            } else if (!staydown.intend_down && staydown.isdown()) {
                 staydown.intend_down = true;
                 staydown.emit('lock');
             }
