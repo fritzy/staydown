@@ -17,18 +17,21 @@ Optionally, images can be replaced with a "spinner" loading image to make image 
 a better user experience. Otherwise, loading images can resize and not scroll down
 until they are finished loading.
 
-    var staydown = new StayDown({
-        target: scrolling_element,
-        interval: millisecond_check,
-        max: max_items,
-        spinner: image_src,
-        callback: event_callback
-    });
-    sd.append(new_element);
+```javascript
+var staydown = new StayDown({
+    target: scrolling_element,
+    interval: millisecond_check,
+    max: max_items,
+    spinner: image_src,
+    callback: event_callback
+});
+sd.append(new_element);
+```
+
 
 ##Install
 
-    npm install staydown
+`npm install staydown`
 
 ##Events:
 
@@ -47,3 +50,9 @@ The event callback is called with an event type whenever ScrollDown does somethi
 
 When the browser doesn't have Mutation Observer support, a check interval is used for the case of
 images or dom mutations happening without using the this StayDown's append function.
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) 2014-2015 Nathanael C. Fritz
