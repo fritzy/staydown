@@ -7,6 +7,7 @@ function StayDown(opts) {
     this.userScroll = true;
     this.spinner = opts.spinner;
     this.spin_img = new Image();
+    this.stickyHeight = opts.stickyHeight || 10;
     if (this.spinner) {
         this.spin_img.src = this.spinner;
     }
@@ -95,7 +96,8 @@ function StayDown(opts) {
 (function () {
 
     this.isdown = function () {
-        return (this.target.scrollTop + this.target.clientHeight == this.target.scrollHeight);
+        var position = this.target.scrollHeight - this.target.scrollTop - this.target.clientHeight;
+        return position < this.stickyHeight;
     };
 
     this.append = function (newel) {
@@ -118,8 +120,8 @@ function StayDown(opts) {
     };
 
     this.checkdown = function () {
-        if (this.intend_down && 
-            this.target.scrollTop + this.target.clientHeight != this.target.scrollHeight) {
+        var position = this.target.scrollHeight - this.target.scrollTop - this.target.clientHeight;
+        if (this.intend_down || position < this.stickyHeight) {
             this.target.scrollTop = this.target.scrollHeight;
             this.userScroll = false;
             this.emit('scrolldown');
