@@ -17,21 +17,36 @@ Optionally, images can be replaced with a "spinner" loading image to make image 
 a better user experience. Otherwise, loading images can resize and not scroll down
 until they are finished loading.
 
-```javascript
+##Install
+
+[![NPM](https://nodei.co/npm/staydown.png?compact=true)](https://npmjs.org/package/staydown)
+![](https://img.shields.io/npm/dm/staydown.svg)
+
+## Example
+
+```js
 var staydown = new StayDown({
     target: scrolling_element,
-    interval: millisecond_check,
+    interval: 1000,
     max: max_items,
     spinner: image_src,
+    stickyHeight: bottomRoom,
     callback: event_callback
 });
 sd.append(new_element);
 ```
 
+## Options
 
-##Install
+| Option       | Required | Default | Description                                              |
+|--------------|:--------:|--------:|----------------------------------------------------------|
+| target       |        ✓ | None    | Target Element                                           |
+| interval     |        ✗ | 1000    | Milliseconds to check if MutationObserver is unsupported |
+| spinner      |        ✗ | None    | URL to spinner image (gif)                               |
+| stickyHeight |        ✗ | 10      | Number of pixels to consider bottom from bottom          |
+| max          |        ✗ | 0       | If not 0, remove oldest elements greater than `max` old  |
+| callback     |        ✗ | None    | function (eventType, msg)                                |
 
-`npm install staydown`
 
 ##Events:
 
@@ -48,11 +63,11 @@ The event callback is called with an event type whenever ScrollDown does somethi
 
 ## Occasional Check
 
-When the browser doesn't have Mutation Observer support, a check interval is used for the case of
+When the browser doesn't have Mutation Observer support, a check `interval` is used for the case of
 images or dom mutations happening without using the this StayDown's append function.
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2015 Nathanael C. Fritz
+Copyright (c) 2014-2016 Nathanael C. Fritz

@@ -1,7 +1,7 @@
 function StayDown(opts) {
     opts = opts || {};
     this.target = opts.target;
-    this.interval = opts.interval;
+    this.interval = opts.interval | 1000;
     this.max = opts.max || 0;
     this.callback = opts.callback;
     this.userScroll = true;
