@@ -28,12 +28,15 @@ until they are finished loading.
 var staydown = new StayDown({
     target: scrolling_element,
     interval: 1000,
-    max: max_items,
-    spinner: image_src,
-    stickyHeight: bottomRoom,
-    callback: event_callback
+    max: 50,
+    spinner: "https://i1.wp.com/cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif",
+    stickyHeight: 10,
+    callback: function (event, msg) {
+      console.log("got event:", event);
+      console.log("event msg:", msg);
+    }
 });
-sd.append(new_element);
+staydown.append(new_element);
 ```
 
 ## Options
@@ -43,8 +46,8 @@ sd.append(new_element);
 | target       |        ✓ | None    | Target Element                                           |
 | interval     |        ✗ | 1000    | Milliseconds to check if MutationObserver is unsupported |
 | spinner      |        ✗ | None    | URL to spinner image (gif)                               |
-| stickyHeight |        ✗ | 10      | Number of pixels to consider bottom from bottom          |
 | max          |        ✗ | 0       | If not 0, remove oldest elements greater than `max` old  |
+| stickyHeight |        ✗ | 10      | Number of pixels to consider bottom from bottom          |
 | callback     |        ✗ | None    | function (eventType, msg)                                |
 
 
