@@ -1,4 +1,4 @@
-#StayDown
+# StayDown
 
 Logs and chats often have the style of appending new lines to the bottom, and keeping
 scrolling pinned to the bottom, unless a user indicates intention not to keep it
@@ -17,7 +17,7 @@ Optionally, images can be replaced with a "spinner" loading image to make image 
 a better user experience. Otherwise, loading images can resize and not scroll down
 until they are finished loading.
 
-##Install
+## Install
 
 [![NPM](https://nodei.co/npm/staydown.png?compact=true)](https://npmjs.org/package/staydown)
 ![](https://img.shields.io/npm/dm/staydown.svg)
@@ -25,7 +25,7 @@ until they are finished loading.
 ## Example
 
 ```js
-var staydown = new StayDown({
+const staydown = new StayDown({
     target: scrolling_element,
     interval: 1000,
     max: 50,
@@ -51,7 +51,7 @@ staydown.append(new_element);
 | callback     |        ✗ | None    | function (eventType, msg)                                |
 
 
-##Events:
+## Events:
 
 The event callback is called with an event type whenever ScrollDown does something.
 
