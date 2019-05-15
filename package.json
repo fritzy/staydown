@@ -1,6 +1,6 @@
 {
   "name": "staydown",
-  "version": "1.3.2",
+  "version": "2.0.0",
   "homepage": "https://github.com/fritzy/staydown",
   "repository": {
     "type": "git",
@@ -9,8 +9,14 @@
   "description": "Keep overflowed containers scrolled down, but allow user intervention",
   "dependencies": {},
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "precommit-hook": "*"
   },
-  "scripts": {},
+  "scripts": {
+    "build": "babel --plugins transform-es2015-modules-commonjs module.js -o index.js"
+  },
+  "module": "module.js",
   "main": "index.js"
 }

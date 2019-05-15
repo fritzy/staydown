@@ -1,10 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = StayDown;
-function StayDown(opts) {
+export default function StayDown(opts) {
 
     opts = opts || {};
     this.target = opts.target;
@@ -89,7 +83,7 @@ function StayDown(opts) {
                 }
             }
         });
-        this.mo.observe(this.target, { attributes: true, childList: true, characterData: true, subtree: true });
+        this.mo.observe(this.target, {attributes: true, childList: true, characterData: true, subtree: true});
     } else {
         var checkdown = function () {
             staydown.checkdown();
@@ -97,6 +91,7 @@ function StayDown(opts) {
         };
         checkdown();
     }
+
 }
 
 (function () {
@@ -133,4 +128,5 @@ function StayDown(opts) {
             this.emit('scrolldown');
         }
     };
+
 }).call(StayDown.prototype);

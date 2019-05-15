@@ -22,6 +22,20 @@ until they are finished loading.
 [![NPM](https://nodei.co/npm/staydown.png?compact=true)](https://npmjs.org/package/staydown)
 ![](https://img.shields.io/npm/dm/staydown.svg)
 
+## Module
+
+You can `require` this as a CommonJS module.
+
+```js
+const StayDown = require('staydown');
+```
+
+Or you can `import` this as a ES6/ECMAScript 2016 module.
+
+```js
+import StayDown from 'staydown';
+```
+
 ## Example
 
 ```js
@@ -68,6 +82,15 @@ The event callback is called with an event type whenever ScrollDown does somethi
 
 When the browser doesn't have Mutation Observer support, a check `interval` is used for the case of
 images or dom mutations happening without using the this StayDown's append function.
+
+## Building
+
+```sh
+git clone git@github.com:fritzy/staydown.git
+cd staydown
+npm install
+npm run build
+```
 
 ## License
 
