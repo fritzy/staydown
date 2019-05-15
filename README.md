@@ -96,4 +96,4 @@ npm run build
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2016 Nathanael C. Fritz
+Copyright (c) 2014-2019 Nathanael C. Fritz
